@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang sức cao cấp BlY</title>
+    <style>
+       
+        
+        header {
+            background-color: rgba(232, 225, 229, 0.114);
+            color: rgba(209, 212, 180, 0.988);
+            padding: 10px 0;
+            text-align: center;
+            z-index: 10;
+            position: relative;
+        }
+
+        nav {
+            background-color: rgba(232, 225, 229, 0.114);
+            padding: 20px 0;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        nav ul li {
+            margin: 0 20px;
+        }
+
+        nav ul li a {
+            color: rgb(234, 241, 236);
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        nav ul li a:hover {
+            text-decoration: underline;
+        }
+
+        .container {
+            width: 90%;
+            margin: 20px auto;
+            position: relative;
+            z-index: 10;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        .product-list {
+            display: none;
+            justify-content: space-evenly;
+            flex-wrap: wrap;
+        }
+
+        .product {
+            background: white;
+            border: 1px solid #ddd;
+            padding: 20px;
+            margin: 10px;
+            flex-basis: 30%;
+            box-sizing: border-box;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .product img {
+            width: 100%;
+            height: auto;
+        }
+
+        .product p {
+            font-size: 16px;
+            color: #333;
+        }
+
+        .cart {
+            background-color: rgba(241, 244, 248, 0.9);
+            padding: 10px;
+            border: 1px solid #ddd;
+            position: fixed;
+            left: 20px;
+            bottom: 20px;
+            z-index: 999;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            width: 300px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .product button {
+            padding: 5px 10px;
+            background-color: #299646;
+            border: none;
+            color: white;
+            cursor: pointer;}
+
+        .cart h2 {
+            margin-top: 0;
+        }
+
+        .cart-items {
+            list-style: none;
+            padding: 0;
+        }
+
+        .cart-items li {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .cart-total {
+            margin-top: 10px;
+            font-size: 9px;
+            font-weight: bold;
+        }
+
+        .cart button {
+            padding: 5px 10px;
+            margin-top: 10px;
+            width: 40%;
+            background-color: #cd1182;
+            border: none;
+            color: white;
+            cursor: pointer;
+        }
+
+        .manager-panel h3 {
+            margin-top: 0;
+        }
+    .back-video{
+
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        z-index: -1;
+    }
+    @media(min-aspect-ratio:16/9){
+        .back-video{
+            width: 100%;
+            height: auto;
+        }
+    }
+    @media(max-aspect-ratio:16/9){
+        .back-video{
+            width:auto;
+            height: 100%;
+        }
+    }
+    .fullscreen-img {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+}
+
+.fullscreen-img img {
+    max-width: 90%;
+    max-height: 90%;
+}
+#product-detail {
+    display: none;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.95);
+    padding: 20px;
+    z-index: 1000;
+    overflow: auto;
+}
+
+    </style>
+</head>
+
+<body>
+    <video autoplay loop muted plays-inline class="back-video">
+<source src="https://videos.pexels.com/video-files/28689711/12453486_1920_1080_30fps.mp4" >    </video>
+    <header>
+        
+        <Canvas></Canvas>
+        <Canvas></Canvas>
+        <Canvas></Canvas>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br> 
+        <br>
+        <br>
+       
+        <!-- Thanh điều hướng -->
+        <nav>
+            <ul>
+                <li><a href="#" onclick="goToHome()">Trang chủ</a></li>
+                <li><a href="#" onclick="showProducts()">Sản phẩm</a></li>
+                <li><a href="#" onclick="showHelp()">Trợ giúp</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Danh sách sản phẩm -->
+     <!-- Danh sách sản phẩm -->
+     <div class="container">
+        <div class="product-list" id="product-list">
+            <div class="product">
+                <img src="https://via.placeholder.com/200" alt="Bông tay">
+                <h3>Bông tay</h3>
+                <p>Giá: 300,000 VND</p>
+                <p>Số lượng còn lại: <span id="stock-bongtay">15</span></p>
+                <button onclick="addToCart('bongtay', 300000, 'stock-bongtay')">Thêm vào giỏ hàng</button>
+                <button onclick="showDetail('Bông tay', ['https://cdn.pnj.io/images/detailed/211/sp-sbxmxmw060214-bong-tai-bac-dinh-da-pnjsilver-2.png', 'https://via.placeholder.com/200', 'https://via.placeholder.com/200'], 'M, L, XL')">Xem chi tiết</button>
+            </div>
+            <div class="product">
+                <img src="https://via.placeholder.com/200" alt="Sản phẩm 4">
+                <h3>Sản phẩm 4</h3>
+                <p>Giá: 400,000 VND</p>
+                <p>Số lượng còn lại: <span id="stock-sanpham4">15</span></p>
+                <button onclick="addToCart('Sản phẩm 4', 400000, 'stock-sanpham4')">Thêm vào giỏ hàng</button>
+                <button onclick="showDetail('Sản phẩm 4', ['https://via.placeholder.com/200', 'https://via.placeholder.com/200', 'https://via.placeholder.com/200'], 'S, M, L')">Xem chi tiết</button>
+            </div>
+            <div class="product">
+                <img src="https://via.placeholder.com/200" alt="Sản phẩm 5">
+                <h3>Sản phẩm 5</h3>
+                <p>Giá: 500,000 VND</p>
+                <p>Số lượng còn lại: <span id="stock-sanpham5">15</span></p>
+                <button onclick="addToCart('Sản phẩm 5', 500000, 'stock-sanpham5')">Thêm vào giỏ hàng</button>
+                <button onclick="showDetail('Sản phẩm 5', ['https://via.placeholder.com/200', 'https://via.placeholder.com/200', 'https://via.placeholder.com/200'], 'M, L')">Xem chi tiết</button>
+            </div>
+            <div class="product">
+                <img src="https://via.placeholder.com/200" alt="Sản phẩm 6">
+                <h3>Sản phẩm 6</h3>
+                <p>Giá: 600,000 VND</p>
+                <p>Số lượng còn lại: <span id="stock-sanpham6">15</span></p>
+                <button onclick="addToCart('Sản phẩm 6', 600000, 'stock-sanpham6')">Thêm vào giỏ hàng</button>
+                <button onclick="showDetail('Sản phẩm 6', ['https://via.placeholder.com/200', 'https://via.placeholder.com/200', 'https://via.placeholder.com/200'], 'L, XL')">Xem chi tiết</button>
+            </div>
+        </div>
+
+        <div id="product-detail" style="display:none; position: fixed; top: 20%; left: 20%; background-color: white; padding: 20px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); z-index: 1000;">
+            <h2 id="product-name"></h2>
+            <div id="product-images" style="display: flex; gap: 10px;"></div>
+            <p>Kích cỡ: <span id="product-sizes"></span></p>
+            <button onclick="closeDetail()">Đóng</button>
+        </div>
+        
+        <div id="fullscreen-container" class="fullscreen-img" onclick="closeFullscreen()">
+            <img id="fullscreen-image" src="" alt="Phóng to ảnh sản phẩm">
+        </div>
+        
+       
+
+    <!-- Giỏ hàng -->
+    <div class="cart">
+        <h2>Giỏ hàng</h2>
+        <ul id="cart-items"></ul>
+        <p>Tổng cộng: <span id="total">0</span> VND</p>
+        <button onclick="clearCart()">Xoá giỏ hàng</button>
+        <button onclick="openPaymentLink()">Thanh toán</button>
+    </div>
+
+    <script>
+        const cart = [];
+        let total = 0;
+        const productSales = {
+            'Sản phẩm 1': 0,
+            'Sản phẩm 2': 0
+        };
+
+        function addToCart(productName, productPrice, stockId) {
+            const stockElement = document.getElementById(stockId);
+            let stock = parseInt(stockElement.textContent);
+
+            if (stock > 0) {
+                stock--;
+                stockElement.textContent = stock;
+
+                cart.push({ name: productName, price: productPrice });
+                total += productPrice;
+                productSales[productName]++; // Tăng số lượng sản phẩm bán
+                updateCart();
+            } else {
+                alert('Sản phẩm đã hết hàng!');
+            }
+        }
+
+        function updateCart() {
+            const cartItemsContainer = document.getElementById('cart-items');
+            cartItemsContainer.innerHTML = '';
+
+            cart.forEach((item) => {
+                const li = document.createElement('li');
+                li.textContent = `${item.name} - ${item.price.toLocaleString()} VND`;
+                cartItemsContainer.appendChild(li);
+            });
+
+            document.getElementById('total').textContent = total.toLocaleString();
+        }
+
+        function clearCart() {
+            cart.length = 0;
+            total = 0;
+            updateCart();
+        }
+
+        function showProducts() {
+            const productList = document.getElementById('product-list');
+            productList.style.display = 'flex';
+            bestSellersList.style.display = 'none';
+        }
+
+        function openPaymentLink() {
+            window.open('https://drive.google.com/file/d/12gOr8yoDoIP1SntQT75xWXvxzjvWNBMJ/view?usp=drivesdk', '_blank');
+        }
+
+        function showHelp() {
+            alert('vui lòng liên hệ: 0789656081 hoặc bấm vào trò chuyện góc phải màn hình để được hỗ trợ');
+        }
+
+        function goToHome() {
+    // Cuộn về đầu trang
+    window.scrollTo(0, 0);
+
+    // Ẩn danh sách sản phẩm khi quay về trang chủ
+    const productList = document.getElementById('product-list');
+    productList.style.display = 'none';
+}
+
+
+    </script>
+    <!-- Mã MyLiveChat -->
+    <script type="text/javascript">
+        function add_chatinline(){
+            var hccid=83978088;
+            var nt=document.createElement("script");
+            nt.async=true;
+            nt.src="https://www.mylivechat.com/chatinline.aspx?hccid="+hccid;
+            var ct=document.getElementsByTagName("script")[0];
+            ct.parentNode.insertBefore(nt,ct);
+        }
+        add_chatinline();
+        function openFullscreen(imgSrc) {
+    const fullscreenContainer = document.getElementById('fullscreen-container');
+    const fullscreenImage = document.getElementById('fullscreen-image');
+
+    // Gán đường dẫn ảnh vào ảnh phóng to
+    fullscreenImage.src = imgSrc;
+
+    // Hiển thị phần tử chứa ảnh phóng to
+    fullscreenContainer.style.display = 'flex';
+}
+
+function closeFullscreen() {
+    // Ẩn phần tử chứa ảnh phóng to
+    const fullscreenContainer = document.getElementById('fullscreen-container');
+    fullscreenContainer.style.display = 'none';
+}
+function showDetail(productName, images, sizes) {
+    // Hiển thị tên sản phẩm
+    document.getElementById('product-name').textContent = productName;
+
+    // Hiển thị ảnh sản phẩm
+    const imagesContainer = document.getElementById('product-images');
+    imagesContainer.innerHTML = ''; // Xóa các ảnh cũ nếu có
+    images.forEach((imgUrl) => {
+        const img = document.createElement('img');
+        img.src = imgUrl;
+        img.style.width = '100px'; // Điều chỉnh kích thước ảnh
+        img.style.height = 'auto';
+        img.style.cursor = 'pointer'; // Thêm con trỏ chỉ tay để người dùng biết ảnh có thể nhấn vào
+
+        // Gán sự kiện nhấn vào ảnh để mở chế độ toàn màn hình
+        img.onclick = () => openFullscreen(imgUrl);
+
+        imagesContainer.appendChild(img);
+    });
+
+    // Hiển thị các kích cỡ sản phẩm
+    document.getElementById('product-sizes').textContent = sizes;
+
+    // Hiển thị khu vực chi tiết sản phẩm
+    document.getElementById('product-detail').style.display = 'block';
+}
+function showDetail(productName, images, sizes) {
+    // Hiển thị tên sản phẩm
+    document.getElementById('product-name').textContent = productName;
+
+    // Hiển thị ảnh sản phẩm
+    const imagesContainer = document.getElementById('product-images');
+    imagesContainer.innerHTML = ''; // Xóa các ảnh cũ nếu có
+    images.forEach((imgUrl) => {
+        const img = document.createElement('img');
+        img.src = imgUrl;
+        img.style.width = '150px'; // Điều chỉnh kích thước ảnh
+        img.style.height = 'auto';
+        img.style.cursor = 'pointer'; // Thêm con trỏ chỉ tay để người dùng biết ảnh có thể nhấn vào
+
+        // Gán sự kiện nhấn vào ảnh để mở chế độ toàn màn hình
+        img.onclick = () => openFullscreen(imgUrl);
+
+        imagesContainer.appendChild(img);
+    });
+
+    // Hiển thị các kích cỡ sản phẩm
+    document.getElementById('product-sizes').textContent = sizes;
+
+    // Hiển thị khu vực chi tiết sản phẩm toàn màn hình
+    const productDetail = document.getElementById('product-detail');
+    productDetail.style.display = 'block';
+    productDetail.scrollTop = 0; // Đảm bảo cuộn lên đầu khi mở chi tiết sản phẩm
+}
+
+function closeDetail() {
+    // Đóng phần chi tiết sản phẩm
+    document.getElementById('product-detail').style.display = 'none';
+}
+
+    </script>
+</body>
+</html>
+
+
+
+
